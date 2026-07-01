@@ -6,7 +6,7 @@
         <h2 class="text-lg font-medium text-gray-900 dark:text-white">Create Todo</h2>
     </div>
 
-    <form action="{{ route('todos.store') }}" method="POST" class="px-6 py-4 space-y-4">
+    <form action="{{ route('todos.store') }}" method="POST" enctype="multipart/form-data" class="px-6 py-4 space-y-4">
         @csrf
 
         <div>
@@ -23,6 +23,15 @@
             <textarea name="description" id="description" rows="3"
                       class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-white shadow-sm focus:border-blue-500 focus:ring-blue-500 text-sm">{{ old('description') }}</textarea>
             @error('description')
+                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div>
+            <label for="files" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Attach Files</label>
+            <input type="file" name="files[]" id="files" multiple
+                   class="mt-1 block w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 dark:file:bg-blue-900 file:text-blue-700 dark:file:text-blue-200 hover:file:bg-blue-100">
+            @error('files.*')
                 <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
             @enderror
         </div>

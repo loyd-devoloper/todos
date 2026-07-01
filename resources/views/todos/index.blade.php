@@ -28,6 +28,16 @@
                         @if ($todo->description)
                             <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $todo->description }}</p>
                         @endif
+                        @if ($todo->files->isNotEmpty())
+                            <div class="mt-1 flex flex-wrap gap-2">
+                                @foreach ($todo->files as $file)
+                                    <a href="{{ $file->downloadUrl() }}" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                        {{ $file->original_name }}
+                                    </a>
+                                @endforeach
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="flex items-center space-x-2 ml-4">

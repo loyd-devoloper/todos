@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Todo extends Model
 {
@@ -17,5 +18,10 @@ class Todo extends Model
         return [
             'completed' => 'boolean',
         ];
+    }
+
+    public function files(): HasMany
+    {
+        return $this->hasMany(TodoFile::class);
     }
 }
