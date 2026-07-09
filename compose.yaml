@@ -3,7 +3,7 @@ services:
   app:
     build: .
 
-    container_name: laravel-app
+    container_name: todo-app
 
     restart: unless-stopped
 
