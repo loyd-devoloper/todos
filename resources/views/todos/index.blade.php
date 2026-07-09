@@ -10,11 +10,11 @@
         @forelse ($todos as $todo)
             <li class="px-6 py-4 flex items-center justify-between">
                 <div class="flex items-center space-x-3 flex-1">
-                    <form action="{{ route('todos.toggle', $todo) }}" method="POST">
+                    <form action="{{ route('todos.toggle', $todo['id']) }}" method="POST">
                         @csrf
                         @method('PATCH')
                         <button type="submit" class="flex-shrink-0">
-                            @if ($todo->completed)
+                            @if ($todo['completed'])
                                 <svg class="w-5 h-5 text-green-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                             @else
                                 <svg class="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"/></svg>
@@ -22,18 +22,18 @@
                         </button>
                     </form>
                     <div class="min-w-0 flex-1">
-                        <p class="text-sm font-medium {{ $todo->completed ? 'line-through text-gray-400' : 'text-gray-900 dark:text-white' }}">
-                            {{ $todo->title }}
+                        <p class="text-sm font-medium {{ $todo['completed'] ? 'line-through text-gray-400' : 'text-gray-900 dark:text-white' }}">
+                            {{ $todo['title'] }}
                         </p>
-                        @if ($todo->description)
-                            <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $todo->description }}</p>
+                        @if ($todo['description'])
+                            <p class="text-sm text-gray-500 dark:text-gray-400 truncate">{{ $todo['description'] }}</p>
                         @endif
-                        @if ($todo->files->isNotEmpty())
+                        @if (!empty($todo['files']))
                             <div class="mt-1 flex flex-wrap gap-2">
-                                @foreach ($todo->files as $file)
-                                    <a href="{{ $file->downloadUrl() }}" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800">
+                                @foreach ($todo['files'] as $file)
+                                    <a href="{{ $file['download_url'] }}" class="inline-flex items-center gap-1 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-                                        {{ $file->original_name }}
+                                        {{ $file['original_name'] }}
                                     </a>
                                 @endforeach
                             </div>
@@ -41,8 +41,8 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-2 ml-4">
-                    <a href="{{ route('todos.edit', $todo) }}" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800">Edit</a>
-                    <form action="{{ route('todos.destroy', $todo) }}" method="POST" onsubmit="return confirm('Are you sure?')">
+                    <a href="{{ route('todos.edit', $todo['id']) }}" class="text-sm text-blue-600 dark:text-blue-400 hover:text-blue-800">Edit</a>
+                    <form action="{{ route('todos.destroy', $todo['id']) }}" method="POST" onsubmit="return confirm('Are you sure?')">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="text-sm text-red-600 dark:text-red-400 hover:text-red-800">Delete</button>
@@ -56,5 +56,9 @@
             </li>
         @endforelse
     </ul>
+
+    <div class="px-6 py-4 border-t border-gray-200 dark:border-gray-700">
+        {{ $todos->links() }}
+    </div>
 </div>
 @endsection
